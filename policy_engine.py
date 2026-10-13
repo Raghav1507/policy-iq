@@ -296,6 +296,13 @@ def detect_intent(q: str):
     t = q.lower()
     if re.search(r"\bfaq\b", t):
         return "faq_check"
+    # questions about the add-on's price/enablement or card interchange are
+    # not covered by any document — refuse rather than answer a different topic
+    if re.search(r"add-?on", t) and re.search(
+            r"cost|price|how much|charge|fee|enable|subscribe|subscription|sign up|activate", t):
+        return "unknown"
+    if re.search(r"visa|mastercard|amex|americard|rupay|interchange|discover\b", t):
+        return "unknown"
     if re.search(r"refund|revers|chargeback|24\s*hour", t):
         return "refund"
     if re.search(r"clos(e|ed|ure)|notice", t) and not re.search(r"close to|near", t):
