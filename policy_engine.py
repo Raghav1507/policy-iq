@@ -247,7 +247,10 @@ def extract_category(text: str):
 
 
 def has_enhanced_kyc(text: str):
-    return bool(re.search(r"enhanced\s+kyc", text, re.I))
+    t = text.lower()
+    if re.search(r"(?:without|no|not|hasn't|has not|haven't|lacks?)\s+(?:completed\s+|an?\s+)?enhanced\s+kyc", t):
+        return False
+    return bool(re.search(r"enhanced\s+kyc", t, re.I))
 
 
 def fmt_inr(x: Decimal, dp: int = 2) -> str:
@@ -419,13 +422,12 @@ def handle_refund(q, as_of, facts):
     m = re.search(r"(\d+)\s*hour", t)
     if m:
         hours = int(m.group(1))
-    same_day = bool(re.search(r"same[- ]day|within 24", t))
-    if hours is None and same_day:
-        hours = 12
+    if re.search(r"within\s*24|same[- ]day", t):
+        hours = min(hours, 12) if hours is not None else 12
     if re.search(r"chargeback", t) and not re.search(r"refund", t):
         return {"answer": "Chargeback disputes must be raised by the customer's bank within 120 days (clause 3.4).",
                 "citations": _cite(c34), "status": ANSWERED}
-    if hours is not None and hours < 24:
+    if hours is not None and hours <= 24:
         if c33 is not None:
             ans = "Yes. A refund initiated within 24 hours of the transaction gets the MDR reversed in full (clause 3.3). The general rule that MDR is not returned (clause 3.2) yields to this exception."
             if pending_delete:
@@ -459,7 +461,7 @@ def handle_limit(q, as_of, facts):
                 "citations": _cite(*per_cls, c43), "status": CONFLICT_RESOLVED if note43 else ANSWERED,
                 "conflict_resolution": note43.strip(" ()") or None}
     if amount is not None and amount > per_txn:
-        limit_txt = f"{fmt_inr(per_txn, 0)}" + (" for Capital Markets and Insurance merchants who have completed enhanced KYC (clauses 4.2 and 4.4)" if category else " (clause 4.1)")
+        limit_txt = f"{fmt_inr(per_txn, 0)}" + (" for Capital Markets and Insurance merchants who have completed enhanced KYC (clauses 4.2 and 4.4)" if (category and kyc) else " (clause 4.1)")
         extra = ""
         if facts.get("compute_if_allowed"):
             r = upi_mdr(amount, facts.get("volume_class") or "large", as_of)

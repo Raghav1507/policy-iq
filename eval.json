@@ -1,0 +1,185 @@
+[
+  {
+    "id": "E01",
+    "question": "When does a small merchant receive UPI money?",
+    "as_of_date": "2026-08-15",
+    "adversarial": false,
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["T+1", "next working day", "Instant Settlement"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "1.1"},
+      {"doc": "circular_2026_08_amendment.md", "clause": "item A"}
+    ]
+  },
+  {
+    "id": "E02",
+    "question": "A large merchant (above Rs.10 lakh monthly) receives a Rs.4,000 UPI payment. What MDR and GST do they pay?",
+    "as_of_date": "2026-08-15",
+    "adversarial": false,
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["0.50%", "₹20.00", "₹3.60", "₹23.60"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "2.2"},
+      {"doc": "policy_master_v1.md", "clause": "2.3"},
+      {"doc": "circular_2026_08_amendment.md", "clause": "item C"},
+      {"doc": "policy_master_v1.md", "clause": "2.4"}
+    ]
+  },
+  {
+    "id": "E03",
+    "question": "Same merchant, a Rs.1,50,000 payment. What do they pay?",
+    "as_of_date": "2026-08-15",
+    "adversarial": true,
+    "adversarial_type": "false_premise_amount_exceeds_upi_limit",
+    "expected_status": "ANSWERED",
+    "expected_answer_contains": ["exceeds the UPI per-transaction limit", "₹25.00", "₹4.50"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "4.1"}
+    ]
+  },
+  {
+    "id": "E04",
+    "question": "A merchant refunds a customer 3 hours after the sale. Do they get the MDR back?",
+    "as_of_date": "2026-08-20",
+    "adversarial": false,
+    "expected_status": "ANSWERED",
+    "expected_answer_contains": ["reversed in full", "clause 3.3", "01 September 2026"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "3.3"},
+      {"doc": "policy_master_v1.md", "clause": "3.2"}
+    ]
+  },
+  {
+    "id": "E05",
+    "question": "A merchant refunds a customer 3 hours after the sale. Do they get the MDR back?",
+    "as_of_date": "2026-09-05",
+    "adversarial": true,
+    "adversarial_type": "deleted_clause_date_shift",
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["not returned", "deleted", "3.2"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "3.2"},
+      {"doc": "circular_2026_08_amendment.md", "clause": "item D"}
+    ]
+  },
+  {
+    "id": "E06",
+    "question": "What does the FAQ say about the MDR cap, and is the FAQ right?",
+    "as_of_date": "2026-08-15",
+    "adversarial": false,
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["WRONG", "₹15", "₹25", "no upper limit"],
+    "expected_citations": [
+      {"doc": "merchant_faq_2026-03.md", "clause": "FAQ-2"},
+      {"doc": "policy_master_v1.md", "clause": "2.3"},
+      {"doc": "circular_2026_08_amendment.md", "clause": "item C"}
+    ]
+  },
+  {
+    "id": "E07",
+    "question": "Can a customer pay Rs.1,00,000 twice in one day to a merchant?",
+    "as_of_date": "2026-08-15",
+    "adversarial": false,
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["No", "daily limit", "₹2,00,000"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "4.3"},
+      {"doc": "circular_2026_08_amendment.md", "clause": "item E"}
+    ]
+  },
+  {
+    "id": "E08",
+    "question": "I closed my account yesterday. When will I get my money?",
+    "as_of_date": "2026-08-15",
+    "adversarial": false,
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["10 working days", "30 days"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "5.1"},
+      {"doc": "policy_master_v1.md", "clause": "5.2"}
+    ]
+  },
+  {
+    "id": "E09",
+    "question": "Does the policy allow me to settle card payments same day?",
+    "as_of_date": "2026-08-15",
+    "adversarial": false,
+    "expected_status": "ANSWERED",
+    "expected_answer_contains": ["No", "T+2"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "1.2"}
+    ]
+  },
+  {
+    "id": "E10",
+    "question": "What is the UPI MDR for a merchant with monthly volume up to Rs.10 lakh?",
+    "as_of_date": "2026-08-15",
+    "adversarial": true,
+    "adversarial_type": "stale_faq_rate_030",
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["0.25%", "₹15"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "2.1"},
+      {"doc": "circular_2026_08_amendment.md", "clause": "item B"}
+    ]
+  },
+  {
+    "id": "E11",
+    "question": "If I refund the customer within 24 hours on 10 September 2026, do I get the MDR reversed?",
+    "as_of_date": "2026-09-10",
+    "adversarial": true,
+    "adversarial_type": "deleted_clause_late_date",
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["not returned", "3.2"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "3.2"},
+      {"doc": "circular_2026_08_amendment.md", "clause": "item D"}
+    ]
+  },
+  {
+    "id": "E12",
+    "question": "What is the SLA for resolving merchant KYC dispute escalations?",
+    "as_of_date": "2026-08-15",
+    "adversarial": true,
+    "adversarial_type": "missing_information_out_of_scope",
+    "expected_status": "CANNOT_ANSWER",
+    "expected_answer_contains": ["CANNOT ANSWER"],
+    "expected_citations": []
+  },
+  {
+    "id": "E13",
+    "question": "I run an insurance merchant without enhanced KYC. Can I accept a Rs.1,50,000 UPI payment?",
+    "as_of_date": "2026-08-15",
+    "adversarial": true,
+    "adversarial_type": "false_premise_faq_omits_kyc_condition",
+    "expected_status": "ANSWERED",
+    "expected_answer_contains": ["exceeds the UPI per-transaction limit", "₹1,00,000"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "4.1"}
+    ]
+  },
+  {
+    "id": "E14",
+    "question": "I run an insurance merchant with enhanced KYC. What is the maximum a customer can pay in one UPI transaction?",
+    "as_of_date": "2026-08-15",
+    "adversarial": false,
+    "expected_status": "CONFLICT_RESOLVED",
+    "expected_answer_contains": ["₹2,00,000"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "4.2"},
+      {"doc": "policy_master_v1.md", "clause": "4.4"}
+    ]
+  },
+  {
+    "id": "E15",
+    "question": "On 15 July 2026, what was the MDR cap on a single UPI transaction for a merchant with monthly volume above Rs.10 lakh?",
+    "as_of_date": "2026-07-15",
+    "adversarial": true,
+    "adversarial_type": "pre_amendment_date_no_tiered_cap",
+    "expected_status": "ANSWERED",
+    "expected_answer_contains": ["₹15"],
+    "expected_citations": [
+      {"doc": "policy_master_v1.md", "clause": "2.3"}
+    ]
+  }
+]
