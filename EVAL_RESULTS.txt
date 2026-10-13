@@ -1,0 +1,158 @@
+﻿ID    ADV  STATUS               status  answer  cites  score
+----------------------------------------------------------------
+E01        CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E02        CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E03   ADV  ANSWERED               PASS    PASS   PASS   1.00
+E04        ANSWERED               PASS    PASS   PASS   1.00
+E05   ADV  CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E06        CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E07        CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E08        CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E09        ANSWERED               PASS    PASS   PASS   1.00
+E10   ADV  CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E11   ADV  CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E12   ADV  CANNOT_ANSWER          PASS    PASS   PASS   1.00
+E13   ADV  ANSWERED               PASS    PASS   PASS   1.00
+E14        CONFLICT_RESOLVED      PASS    PASS   PASS   1.00
+E15   ADV  ANSWERED               PASS    PASS   PASS   1.00
+----------------------------------------------------------------
+TOTAL: 15.00 / 15  (100%)   questions=15  adversarial=7
+Question: Q1. When does a small merchant receive UPI money?
+As of:    2026-08-15
+Status:   CONFLICT_RESOLVED
+Answer:   T+1 ΓÇö the next working day (Sundays and bank holidays excluded). Circular item A (effective 01 August 2026) grants same-day T+0 settlement only to merchants with the Instant Settlement add-on; all other merchants stay on T+1.
+Resolved: Supersession: circular MS/2026/17 item A replaced master clause 1.1 effective 01 August 2026; the pre-amendment master text does not apply on this date.
+Citations:
+  - policy_master_v1.md :: 1.1
+  - circular_2026_08_amendment.md :: item A
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - faq:FAQ-1  score=4.46
+  - faq:FAQ-2  score=3.25
+  - clause:5.1  score=2.59
+  - clause:3.2  score=2.32
+  - faq:FAQ-5  score=2.16
+------------------------------------------------------------------------
+Question: Q2. A large merchant (above Rs.10 lakh monthly) receives a Rs.4,000 UPI payment. What MDR and GST do they pay?
+As of:    2026-08-15
+Status:   CONFLICT_RESOLVED
+Answer:   For a merchant with monthly volume above Γé╣10 lakh: MDR = 0.50% of Γé╣4,000.00 = Γé╣20.00. The Γé╣25 cap does not bite here. GST at 18% on the MDR (clause 2.4, outside the cap) = Γé╣3.60. Total cost = Γé╣23.60.
+Resolved: Supersession: circular MS/2026/17 item B replaced master clause 2.1 effective 01 August 2026; the pre-amendment master text does not apply on this date.) (Supersession: circular MS/2026/17 item C replaced master clause 2.3 effective 01 August 2026; the pre-amendment master text does not apply on this date.
+Citations:
+  - policy_master_v1.md :: 2.1
+  - circular_2026_08_amendment.md :: item B
+  - policy_master_v1.md :: 2.2
+  - policy_master_v1.md :: 2.3
+  - circular_2026_08_amendment.md :: item C
+  - policy_master_v1.md :: 2.4
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - clause:2.2  score=8.03
+  - clause:2.1  score=6.57
+  - clause:2.3  score=6.24
+  - faq:FAQ-2  score=6.18
+  - clause:2.4  score=5.03
+------------------------------------------------------------------------
+Question: Q3. Same merchant, a Rs.1,50,000 payment. What do they pay?
+As of:    2026-08-15
+Status:   ANSWERED
+Answer:   This payment exceeds the UPI per-transaction limit of Γé╣1,00,000 (clause 4.1), so a Γé╣1,50,000 UPI payment would be rejected for an ordinary merchant. If the transaction were permitted ΓÇö i.e. the merchant is in Capital Markets or Insurance with enhanced KYC (clauses 4.2 and 4.4) ΓÇö the charges would be: MDR capped at Γé╣25.00 (clause 2.3 as amended by circular item C) = Γé╣25.00, GST 18% = Γé╣4.50, total Γé╣29.50.
+Citations:
+  - policy_master_v1.md :: 4.1
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - faq:FAQ-4  score=3.53
+  - clause:5.1  score=2.59
+  - clause:3.2  score=2.32
+  - faq:FAQ-3  score=2.03
+  - clause:1.1  score=1.91
+------------------------------------------------------------------------
+Question: Q4a. A merchant refunds a customer 3 hours after the sale. Do they get the MDR back?
+As of:    2026-08-20
+Status:   ANSWERED
+Answer:   Yes. A refund initiated within 24 hours of the transaction gets the MDR reversed in full (clause 3.3). The general rule that MDR is not returned (clause 3.2) yields to this exception. Note: circular MS/2026/17 item D deletes clause 3.3 effective 01 September 2026, after which this answer changes.
+Citations:
+  - policy_master_v1.md :: 3.2
+  - policy_master_v1.md :: 3.3
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - faq:FAQ-3  score=8.04
+  - clause:3.3  score=3.91
+  - clause:3.2  score=3.63
+  - clause:5.2  score=2.75
+  - clause:5.1  score=2.59
+------------------------------------------------------------------------
+Question: Q4b. A merchant refunds a customer 3 hours after the sale. Do they get the MDR back?
+As of:    2026-09-05
+Status:   CONFLICT_RESOLVED
+Answer:   No. As of this date clause 3.3 has been deleted by circular item D (effective 01 September 2026), and clause 3.2 now applies without exception: the MDR charged on a refunded transaction is not returned to the merchant, regardless of how quickly the refund is issued.
+Resolved: Circular item D deleted the 24-hour MDR-reversal exception in clause 3.3 effective 01 September 2026; master clauses 3.2/3.3 alone would have said otherwise before that date.
+Citations:
+  - policy_master_v1.md :: 3.2
+  - circular_2026_08_amendment.md :: item D
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - faq:FAQ-3  score=8.50
+  - clause:5.1  score=3.18
+  - clause:5.2  score=2.75
+  - faq:FAQ-1  score=2.23
+  - clause:2.4  score=2.17
+------------------------------------------------------------------------
+Question: Q5. What does the FAQ say about the MDR cap, and is the FAQ right?
+As of:    2026-08-15
+Status:   CONFLICT_RESOLVED
+Answer:   The FAQ says: '0.30% for small merchants, 0.50% for large ones. There is no upper limit on the fee, so very large transactions cost more.' The FAQ is WRONG on the cap and STALE on the small-merchant rate. There is an MDR cap: Γé╣15 on any single UPI transaction for merchants with volume up to Γé╣10 lakh, and Γé╣25 for merchants above Γé╣10 lakh (clause 2.3 as amended by circular item C, effective 01 August 2026). The small-merchant rate is 0.25% as of 01 August 2026 (circular item B), not the 0.30% the FAQ quotes from March 2026. The 0.50% rate for large merchants (clause 2.2) is still correct.
+Resolved: FAQ-2 (12 March 2026) claims no fee cap and a 0.30% small-merchant rate. Master clause 2.3 caps single-transaction MDR and circular item C (eff. 01 Aug 2026) sets tiered caps of Γé╣15/Γé╣25; circular item B lowers the small-merchant rate to 0.25%. The in-force policy clauses govern; the FAQ is stale.
+Citations:
+  - merchant_faq_2026-03.md :: FAQ-2
+  - policy_master_v1.md :: 2.1
+  - circular_2026_08_amendment.md :: item B
+  - policy_master_v1.md :: 2.2
+  - policy_master_v1.md :: 2.3
+  - circular_2026_08_amendment.md :: item C
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - clause:2.3  score=3.93
+  - clause:2.2  score=3.28
+  - clause:2.4  score=1.96
+  - clause:3.3  score=1.42
+  - clause:2.1  score=1.32
+------------------------------------------------------------------------
+Question: Q6. Can a customer pay Rs.1,00,000 twice in one day to a merchant?
+As of:    2026-08-15
+Status:   CONFLICT_RESOLVED
+Answer:   No. The daily limit per customer account is Γé╣1,00,000 across all UPI transactions (clause 4.3 as amended by circular item E: Γé╣1,00,000 or the customer's own bank limit, whichever is lower). Two payments of Γé╣1,00,000 in one day total Γé╣2,00,000, which breaches the daily aggregate limit ΓÇö the second payment would be rejected.
+Resolved: Supersession: circular MS/2026/17 item E replaced master clause 4.3 effective 01 August 2026; the pre-amendment master text does not apply on this date.
+Citations:
+  - policy_master_v1.md :: 4.1
+  - policy_master_v1.md :: 4.3
+  - circular_2026_08_amendment.md :: item E
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - faq:FAQ-4  score=7.02
+  - clause:4.3  score=5.25
+  - faq:FAQ-3  score=3.52
+  - clause:4.2  score=3.21
+  - clause:5.1  score=2.59
+------------------------------------------------------------------------
+Question: Q7. I closed my account yesterday. When will I get my money?
+As of:    2026-08-15
+Status:   CONFLICT_RESOLVED
+Answer:   A merchant may close the account with 30 days' written notice (clause 5.1). Pending settlements are released within 10 working days of closure, after deducting outstanding dues (clause 5.2). So if the account closed yesterday (assuming the 30-day notice was served), the money is released within 10 working days of the closure date. Note: the FAQ says 'within 10 days'; the master policy says 10 working days, which is authoritative.
+Resolved: FAQ-5 loosely says '10 days'; master clause 5.2 specifies 10 working days. Master policy governs.
+Citations:
+  - policy_master_v1.md :: 5.1
+  - policy_master_v1.md :: 5.2
+  - merchant_faq_2026-03.md :: FAQ-5
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - faq:FAQ-1  score=8.18
+  - faq:FAQ-5  score=4.00
+  - clause:5.1  score=2.20
+  - faq:FAQ-3  score=2.03
+  - clause:4.3  score=1.67
+------------------------------------------------------------------------
+Question: Q8. Does the policy allow me to settle card payments same day?
+As of:    2026-08-15
+Status:   ANSWERED
+Answer:   No. Card transactions settle T+2 (two working days). The 01 August 2026 circular changed only UPI settlement; cards remain T+2 under clause 1.2.
+Citations:
+  - policy_master_v1.md :: 1.2
+Retrieved candidates (BM25, for transparency only ΓÇö never overrides the date resolver):
+  - clause:1.2  score=6.87
+  - faq:FAQ-3  score=4.06
+  - clause:1.1  score=3.82
+  - faq:FAQ-1  score=2.24
+------------------------------------------------------------------------
