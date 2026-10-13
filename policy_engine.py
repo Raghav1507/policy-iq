@@ -381,12 +381,16 @@ def handle_mdr(q, as_of, facts):
     c23, note23, _ = _supersession_note("2.3", as_of)
     rate_txt = "0.25%" if (c21 and "0.25%" in c21.text) else "0.30%"
     if amount is None:
+        tiered = bool(c23 and "25" in c23.text and "above 10 lakh" in c23.text)
+        cap_txt = ("The single-transaction MDR cap is ₹15 up to ₹10 lakh volume and ₹25 above it (clause 2.3 as amended by circular item C)."
+                   if tiered else
+                   "The MDR on any single UPI transaction is capped at ₹15 (clause 2.3).")
         if vol == "small":
             ans = (f"UPI MDR for a merchant with monthly volume up to ₹10 lakh is {rate_txt} of the transaction value"
-                   f" (clause 2.1). The MDR on any single UPI transaction is capped at ₹15 for such merchants (clause 2.3, as amended by circular item C from 01 August 2026). GST at 18% is charged on the MDR amount and is outside the cap (clause 2.4).")
+                   f" (clause 2.1). {cap_txt} GST at 18% is charged on the MDR amount and is outside the cap (clause 2.4).")
         else:
-            ans = ("UPI MDR is 0.25% for monthly volume up to ₹10 lakh (clause 2.1, as amended) and 0.50% above ₹10 lakh (clause 2.2). "
-                   "The single-transaction MDR cap is ₹15 up to ₹10 lakh volume and ₹25 above it (clause 2.3 as amended by circular item C). GST at 18% applies on the MDR, outside the cap (clause 2.4).")
+            ans = (f"UPI MDR is {rate_txt} for monthly volume up to ₹10 lakh (clause 2.1) and 0.50% above ₹10 lakh (clause 2.2). "
+                   f"{cap_txt} GST at 18% applies on the MDR, outside the cap (clause 2.4).")
         return {"answer": ans, "citations": _cite(c21, c22, c23, c24), "status": CONFLICT_RESOLVED if (note21 or note23) else ANSWERED,
                 "conflict_resolution": (note21 + note23).strip(" ()") or None}
     results = []
@@ -503,7 +507,41 @@ HANDLERS = {
 }
 
 
-def ask(question: str, as_of: date = DEFAULT_AS_OF):
+_MONTHS = {m.lower(): i for i, m in enumerate(
+    ["January", "February", "March", "April", "May", "June", "July", "August",
+     "September", "October", "November", "December"], start=1)}
+_MONTH_ABBR = {m[:3].lower(): i for m, i in _MONTHS.items()}
+
+
+def extract_dates(text: str):
+    """Parse dates like '20 Aug 2026' or '2026-09-05' from free text."""
+    out = []
+    for m in re.finditer(
+            r"\b(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?,?\s+(\d{4})\b",
+            text, re.I):
+        out.append(date(int(m.group(3)), _MONTH_ABBR[m.group(2).lower()], int(m.group(1))))
+    for m in re.finditer(r"\b(\d{4})-(\d{2})-(\d{2})\b", text):
+        out.append(date(int(m.group(1)), int(m.group(2)), int(m.group(3))))
+    return out
+
+
+def ask(question: str, as_of: "date | str | None" = None, **kw):
+    """Answer a policy question as of a date.
+
+    as_of accepts a date, an ISO 'YYYY-MM-DD' string, or None (default
+    2026-08-15). A date explicitly stated in the question itself takes
+    precedence over the as_of argument.
+    """
+    if as_of is None:
+        as_of = kw.get("as_of_date")
+    if isinstance(as_of, str):
+        as_of = date.fromisoformat(as_of)
+    q_dates = extract_dates(question)
+    if q_dates:
+        as_of = q_dates[0]
+    if as_of is None:
+        as_of = DEFAULT_AS_OF
+
     facts = {
         "amount": extract_amount(question),
         "volume_class": extract_volume_class(question),
