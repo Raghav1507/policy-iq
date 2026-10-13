@@ -1,7 +1,19 @@
 # PolicyIQ — Grounded Merchant Policy QA
 
-A deterministic, offline question-answering assistant over three conflicting merchant
-policy documents:
+PolicyIQ is a question-answering assistant for merchant support over three policy
+documents that were written at different times and do not always agree: a master
+policy, an August 2026 amendment circular, and a stale March 2026 FAQ. The core
+idea is that **the correct answer depends on when you ask** — so every question is
+resolved against an `as_of_date`. A structured table of circular amendments (item
+letter, clause, action, effective date) decides which clauses are actually in
+force on that date; superseded clauses are replaced or deleted before any answer
+text is composed. BM25 keyword retrieval surfaces candidate clauses for
+transparency, but it never decides what is legally applicable — the date-aware
+resolver does. All fee, cap, GST and limit arithmetic is computed by code with
+`Decimal` (HALF_UP, 2 dp), never guessed by a language model, and every answer
+carries real citations (document + clause number) or an honest `CANNOT_ANSWER`.
+
+**Documents:**
 
 - `ai-2-data/policy_master_v1.md` — base policy, v1.0 (effective 01 Jan 2026)
 - `ai-2-data/circular_2026_08_amendment.md` — circular MS/2026/17 (most items effective 01 Aug 2026; the refund change effective 01 Sep 2026)
@@ -33,7 +45,7 @@ No dependencies beyond Python 3.10+. No API key. No network. No LLM at runtime.
                 {"doc": "circular_2026_08_amendment.md", "clause": "item A"}],
   "status": "CONFLICT_RESOLVED",
   "conflict_resolution": "circular MS/2026/17 item A replaced clause 1.1 effective 01 Aug 2026 ...",
-  "retrieved_candidates": [["clause:1.1", 3.21], ...]
+  "retrieved_candidates": [["clause:1.1", 3.21]]
 }
 ```
 
@@ -64,10 +76,10 @@ question + as_of_date
         └─► deterministic calculators  ── Decimal money math: rate, cap, GST, limits
 ```
 
-The split matters: **retrieval finds relevant text; the resolver decides what is law
-for the given date.** A BM25 score can never promote a superseded clause over the
-in-force one. All arithmetic (MDR, caps, GST) is computed by code with `Decimal`
-(HALF_UP, 2 dp) — never guessed by a language model.
+The split matters: **retrieval finds relevant text; the resolver decides what is
+law for the given date.** A BM25 score can never promote a superseded clause over
+the in-force one. All arithmetic (MDR, caps, GST) is computed by code with
+`Decimal` (HALF_UP, 2 dp) — never guessed by a language model.
 
 ## Correctness highlights (the traps in the data)
 
@@ -80,6 +92,16 @@ in-force one. All arithmetic (MDR, caps, GST) is computed by code with `Decimal`
 | FAQ omits the enhanced-KYC condition for ₹2,00,000 insurance limits | Insurance merchant **without** KYC is held to ₹1,00,000 (clauses 4.1/4.4) |
 | Item E: daily limit is min(₹1L, customer's bank limit) | Two ₹1L payments in a day → answer "No" with the amended clause |
 
+## Evaluation
+
+```bash
+python run_eval.py
+```
+
+Current score: **15/15 (100%)**, including 7 adversarial questions (stale FAQ
+rate, deleted-clause date shift ×2, false premise ×2, out-of-scope topic,
+pre-amendment date). Output also saved in `EVAL_RESULTS.txt`.
+
 ## Files
 
 | File | Purpose |
@@ -89,7 +111,7 @@ in-force one. All arithmetic (MDR, caps, GST) is computed by code with `Decimal`
 | `eval.json` | 15 questions (7 adversarial) with expected status/answer fragments/citations |
 | `run_eval.py` | Runs `eval.json`, prints a score table (status / answer / citations per question) |
 | `DECISIONS.md` | Every ambiguity hit and the choice made |
-| `AI_USAGE.md` | Honest log of AI tool use |
+| `AI_USAGE.md` | Disclosure of AI tool use |
 | `WHERE_IT_BREAKS.md` | Three things the system should not be trusted with |
 
 ## Known limitations
